@@ -38,11 +38,13 @@ public class KnifeController : MonoBehaviour
         }
     }
 
+    
+
     public void FlipKnife()
     {
         if (_touching)
         {
-            DOVirtual.DelayedCall(0.2f, (() =>
+            DOVirtual.DelayedCall(0.3f, (() =>
             {
                 _touching = false;
             }));
