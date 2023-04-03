@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Multiplier : MonoBehaviour
 {
+    [SerializeField] private GameObject _winPanel;
+    [SerializeField] private TextMeshProUGUI _newScoreText;
     [SerializeField] private int _multipler;
     private AudioSource _lastAudio;
 
@@ -21,6 +24,8 @@ public class Multiplier : MonoBehaviour
             _triggeredAlready = true;
             _lastAudio.Play();
             GameManager.multiplier = _multipler;
+            _newScoreText.text = "$" + (GameManager.multiplier * GameManager.score).ToString();
+            _winPanel.SetActive(true);
         }
     }
 }
