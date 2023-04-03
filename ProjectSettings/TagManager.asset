@@ -7,6 +7,7 @@ TagManager:
   - ground
   - platform
   - knife
+  - score
   layers:
   - Default
   - TransparentFX

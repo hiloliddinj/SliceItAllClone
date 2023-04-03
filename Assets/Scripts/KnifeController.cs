@@ -7,34 +7,37 @@ public class KnifeController : MonoBehaviour
 {
     private Rigidbody _rigidBody;
     private Tween _knifeTween;
+    private AudioSource _audioSource;
 
     private bool _isFirstFlip = true;
     private bool _touching = false;
+
+    private bool _gameOver = false;
 
 
     private void Start()
     {
         _rigidBody = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
         _rigidBody.isKinematic = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(TagConst.platform) && !_touching)
+        if ((other.CompareTag(TagConst.platform) || other.CompareTag(TagConst.ground)) && !_touching)
         {
             _touching = true;
             _rigidBody.velocity = Vector3.zero;
             _rigidBody.angularVelocity = Vector3.zero;
             _rigidBody.isKinematic = true;
-            Debug.Log("KnifeController, PLATFORM!");
         }
-        else if (other.CompareTag(TagConst.ground) && !_touching)
+        
+        else if(other.CompareTag(TagConst.score))
         {
-            _touching = true;
+            _gameOver = true;
             _rigidBody.velocity = Vector3.zero;
             _rigidBody.angularVelocity = Vector3.zero;
             _rigidBody.isKinematic = true;
-            Debug.Log("KnifeController, you loose!");
         }
     }
 
@@ -42,6 +45,8 @@ public class KnifeController : MonoBehaviour
 
     public void FlipKnife()
     {
+        if (_gameOver) return;
+        _audioSource.Play();
         if (_touching)
         {
             DOVirtual.DelayedCall(0.3f, (() =>

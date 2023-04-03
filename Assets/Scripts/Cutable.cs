@@ -12,17 +12,24 @@ public class Cutable : MonoBehaviour
     [SerializeField] private GameObject _text;
 
     private BoxCollider _bC;
+    private AudioSource _audioSource;
+
+    private bool _alreadyPlayed = false;
 
     private void Start()
     {
         _bC = GetComponent<BoxCollider>();
+        _audioSource = GetComponent<AudioSource>();
         _text.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(TagConst.knife))
+        if (other.CompareTag(TagConst.knife) && !_alreadyPlayed)
         {
+            _alreadyPlayed = true;
+            _audioSource.Play();
+            GameManager.score++;
             if (_particleSystem != null)
             {
                 _particleSystem.Play();
